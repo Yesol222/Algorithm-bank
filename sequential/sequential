@@ -1,0 +1,73 @@
+#finding shorted path considering panlaty
+
+
+def matrix(x,y) :
+
+    newList = list()
+    panalty = list()
+    opt = list()
+
+    if x[6] == y[6] :
+        opt[6][6] = 0
+    elif x[6] == " " or y[6] == " " :
+        opt[6][6] = 2
+    else :
+        opt[6][6] = 1
+
+    newList.append(y[6])
+    panalty.append(opt[6][6])
+
+
+    for i,j in range(5,-1) :
+        if x[i] == y[j]:
+            opt[i][j] = opt[i+1][j+1]
+        elif x[i] == " " or y[j] == " ":
+            opt[i][j] = opt[i+1][j+1] + 2
+        else:
+            opt[i][j] = opt[i+1][j+1] + 1
+
+    for i in range(5,-1) :
+        for j in range(5,-1) :
+                if x[i] == y[j]:
+                    opt[i][j] = opt[i+1][j] + 2
+                elif x[i] == " " or y[j] == " ":
+                    opt[i][j] = opt[i+1][j] + 4
+                else:
+                    opt[i][j] = opt[i+1][j] + 5
+
+    for j in range(5,-1) :
+        for i in range(5,-1) :
+            if x[i] == y[j]:
+                opt[i][j] = opt[i][j+1] +2
+            elif x[i] == " " or y[j] == " ":
+                opt[i][j] = opt[i][j+1] + 4
+            else:
+                opt[i][j] = opt[i][j+1] + 5
+
+
+
+    while n>=0 and m>=0 :
+
+        n,m = 5
+
+        panalty[m] = min(opt[n][m],opt[n+1][m],opt[n][m+1])
+
+        if panalty[m] == opt[m+1] :
+            newList[m] = y[m+1]
+        else :
+            newList[m] = y[m]
+
+        n = n-1
+        m = m-1
+
+    print(newList)
+    print(panalty)
+
+if __name__ == "__main__":
+
+    x = ['T','A','A','G','G','T','C']
+
+    y = ['A','A','C','A','G'," "," "]
+
+    print(x)
+    matrix(x,y)
